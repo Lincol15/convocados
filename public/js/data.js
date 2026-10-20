@@ -11,9 +11,6 @@ const NEGOCIO = {
   whatsapp:  '51965370205',          // ← número real, no cambiar
   direccion: '[Reemplazar con dirección real]',
   maps:      'https://maps.google.com/?q=-12.0464,-77.0428', // ← reemplazar coords reales
-  instagram: 'https://instagram.com/[reemplazar]',
-  facebook:  'https://facebook.com/[reemplazar]',
-  tiktok:    '',                     // dejar vacío si no aplica
   horarios: [
     { dia: 'Lunes a jueves', hora: '12:00 pm – 11:00 pm' },
     { dia: 'Viernes',        hora: '12:00 pm – 1:00 am'  },

@@ -1167,14 +1167,6 @@ function renderInfo() {
       <span class="horario-hora">${escHtml(h.hora)}</span>
     </li>`).join('');
 
-  const redesHTML = [
-    NEGOCIO.instagram ? `<a href="${escHtml(NEGOCIO.instagram)}" target="_blank" rel="noopener" class="red-social-btn">
-      <span class="red-social-icon">📸</span>Instagram</a>` : '',
-    NEGOCIO.facebook  ? `<a href="${escHtml(NEGOCIO.facebook)}" target="_blank" rel="noopener" class="red-social-btn">
-      <span class="red-social-icon">📘</span>Facebook</a>`  : '',
-    NEGOCIO.tiktok    ? `<a href="${escHtml(NEGOCIO.tiktok)}" target="_blank" rel="noopener" class="red-social-btn">
-      <span class="red-social-icon">🎵</span>TikTok</a>`    : '',
-  ].filter(Boolean).join('');
 
   screen.innerHTML = `
     <div class="topbar">
@@ -1226,12 +1218,6 @@ function renderInfo() {
       </div>
     </div>
 
-    <!-- Redes sociales -->
-    ${redesHTML ? `
-    <div class="info-card">
-      <div class="info-card-titulo">📲 Redes sociales</div>
-      <div class="redes-grid">${redesHTML}</div>
-    </div>` : ''}
 
     <!-- Aviso datos de ejemplo -->
     <div class="aviso-datos">
