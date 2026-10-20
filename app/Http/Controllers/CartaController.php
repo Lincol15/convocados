@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class CartaController extends Controller
 {
     /**
@@ -16,10 +14,12 @@ class CartaController extends Controller
 
     /**
      * Genera y muestra el código QR que apunta a la carta.
+     * La URL es siempre la de la propia carta, para que nadie pueda
+     * generar un QR con la marca que lleve a otro sitio.
      */
-    public function qr(Request $request)
+    public function qr()
     {
-        $url = $request->query('url', url('/'));
+        $url = url('/');
         return view('qr', compact('url'));
     }
 }

@@ -38,12 +38,27 @@ const Cart = (() => {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) _items = parsed;
+        if (Array.isArray(parsed)) _items = _sincronizarConCatalogo(parsed);
       }
     } catch (e) {
       console.warn('Cart: no se pudo leer localStorage', e);
       _items = [];
     }
+  }
+
+  /**
+   * El carrito guardado puede venir de una versión anterior de la carta:
+   * descarta productos que ya no existen o están agotados y recalcula
+   * el precio con los valores actuales de data.js.
+   */
+  function _sincronizarConCatalogo(items) {
+    return items
+      .map(it => {
+        const prod = getProducto(it.productoId);
+        if (!prod || prod.agotado) return null;
+        return { ...it, subtotalUnitario: calcularPrecioUnitario(prod, it.opciones) };
+      })
+      .filter(it => it && it.cantidad > 0);
   }
 
   // ── Clave de igualdad ────────────────────────────────────────

@@ -374,6 +374,39 @@ function getProducto(id) {
   return PRODUCTOS.find(p => p.id === id) || null;
 }
 
+/**
+ * Precio por unidad en céntimos según las opciones elegidas
+ * (porción de alitas, presentación de vino y adicionales).
+ */
+function calcularPrecioUnitario(prod, opciones) {
+  const op          = opciones || {};
+  const adicionales = Array.isArray(op.adicionales) ? op.adicionales : [];
+  let base = prod.precioCentimos;
+
+  // Extra porción alitas
+  if (prod.tipo === 'alitas' && op.porcionId) {
+    const p = ALITAS_PORCIONES.find(p => p.id === op.porcionId);
+    if (p) base += p.extra;
+  }
+
+  // Extra presentación vino
+  if (prod.tipo === 'vino' && op.presentacionId) {
+    const pres = VINOS_PRESENTACIONES.find(v => v.id === op.presentacionId);
+    if (pres) base += pres.extra;
+  }
+
+  // Adicionales
+  const listaAdicionales =
+    prod.tipo === 'alitas' ? ALITAS_ADICIONALES :
+    prod.tipo === 'burger' ? BURGERS_ADICIONALES : [];
+  adicionales.forEach(id => {
+    const a = listaAdicionales.find(a => a.id === id);
+    if (a) base += a.precio;
+  });
+
+  return base;
+}
+
 /** Filtra productos por categoría; 'todos' devuelve todos */
 function filtrarPorCategoria(catId) {
   if (catId === 'todos') return PRODUCTOS;

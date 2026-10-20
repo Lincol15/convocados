@@ -398,35 +398,7 @@ function renderDetalle(prod) {
   };
 
   function calcularTotal() {
-    let base = prod.precioCentimos;
-
-    // Extra porción alitas
-    if (prod.tipo === 'alitas' && estado.porcionId) {
-      const p = ALITAS_PORCIONES.find(p => p.id === estado.porcionId);
-      if (p) base += p.extra;
-    }
-
-    // Extra presentación vino
-    if (prod.tipo === 'vino' && estado.presentacionId) {
-      const pres = VINOS_PRESENTACIONES.find(v => v.id === estado.presentacionId);
-      if (pres) base += pres.extra;
-    }
-
-    // Adicionales
-    if (prod.tipo === 'alitas') {
-      estado.adicionales.forEach(id => {
-        const a = ALITAS_ADICIONALES.find(a => a.id === id);
-        if (a) base += a.precio;
-      });
-    }
-    if (prod.tipo === 'burger') {
-      estado.adicionales.forEach(id => {
-        const a = BURGERS_ADICIONALES.find(a => a.id === id);
-        if (a) base += a.precio;
-      });
-    }
-
-    return base * estado.cantidad;
+    return calcularPrecioUnitario(prod, estado) * estado.cantidad;
   }
 
   function actualizarTotal() {
@@ -754,7 +726,7 @@ function renderDetalle(prod) {
       opciones:      { ...estado },
       opcionesTexto: opcionesTexto,
       observaciones: estado.observaciones.trim(),
-      subtotalUnitario: calcularTotal() / estado.cantidad,
+      subtotalUnitario: calcularPrecioUnitario(prod, estado),
     });
 
     actualizarBadge();
